@@ -27,14 +27,6 @@ val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
 print(f"Train: {len(train_dataset)} images, Val: {len(val_dataset)} images")
 print(f"Classes: {len(train_dataset.classes)}")
 
-model = SceneClassifier(backbone, num_classes=365).to(device)
-
-optimizer = optim.Adam(model.head.parameters(), lr=0.001, weight_decay=0.0005)
-
-scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=50)
-
-criterion = nn.CrossEntropyLoss()
-
 def one_epoch(model, loader, optimizer, criterion, device):
     total_loss = 0
     correct = 0
@@ -65,4 +57,35 @@ def validate(model, loader, criterion, device):
     total = 0
     model.eval()
 
+    with torch.no_grad():
+        for imgs, labels in loader:
+            imgs, labels = imgs.to(device), labels.to(device)
+            preds = model(imgs)
+            loss = criterion(preds, labels)
+            
+            total_loss += loss.item()
+            correct += (preds.argmax(1) == labels).sum().items()
+            total += labels.size(0)
+            
+        avg_loss = total_loss / len(loader)
+        accuracy = (correct / total) * 100
+        
+    return avg_loss, accuracy
+
+def training_loop(epochs, loader, device):
+    model = SceneClassifier(backbone, num_classes=365).to(device)
+    optimizer = optim.Adam(model.head.parameters(), lr=0.001, weight_decay=0.0005)
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=50)
+    criterion = nn.CrossEntropyLoss()
     
+    for epoch in range(epochs):
+        start = time.time()
+        
+        train_loss, train_accuracy = one_epoch(model, loader, optimizer, criterion, device)
+        val_loss, val_accuracy = validate(model, loader, criterion, device)
+        
+        scheduler.step()
+        
+        elapsed = time.time() - start
+        
+        print(f"Epoch")
