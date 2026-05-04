@@ -1,0 +1,52 @@
+mkdir -p failed for path /home/xj44416/.config/matplotlib: [Errno 28] No space left on device: '/home/xj44416/.config'
+Matplotlib created a temporary cache directory at /tmp/matplotlib-j21_vtby because there was an issue with the default path (/home/xj44416/.config/matplotlib); it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/ultralytics/utils/metrics.py:75: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /home/xj44416/.cache/torch/kernels. This warning will appear only once per process. (Triggered internally at /pytorch/aten/src/ATen/native/cuda/jit_utils.cpp:1487.)
+  inter = (torch.min(a2, b2) - torch.max(a1, b1)).clamp_(0).prod(2)
+/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/ultralytics/utils/metrics.py:75: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /home/xj44416/.cache/torch/kernels. This warning will appear only once per process. (Triggered internally at /pytorch/aten/src/ATen/native/cuda/jit_utils.cpp:1487.)
+  inter = (torch.min(a2, b2) - torch.max(a1, b1)).clamp_(0).prod(2)
+E0504 09:39:21.131371 1214900 venv475/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/api.py:874] failed (exitcode: -9) local_rank: 1 (pid: 1214903) of binary: /umbc/class/cmsc475sp26/common/group_5/venv475/bin/python
+Traceback (most recent call last):
+  File "/usr/lib64/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib64/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/torch/distributed/run.py", line 905, in <module>
+    main()
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 357, in wrapper
+    return f(*args, **kwargs)
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/torch/distributed/launcher/api.py", line 143, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/torch/distributed/launcher/api.py", line 277, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+===========================================================
+/tmp/Ultralytics/DDP/_temp_w4jy5kj823451532802416.py FAILED
+-----------------------------------------------------------
+Failures:
+  <NO_OTHER_FAILURES>
+-----------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-05-04_09:39:17
+  host      : g24-04.cm.cluster
+  rank      : 1 (local_rank: 1)
+  exitcode  : -9 (pid: 1214903)
+  error_file: <N/A>
+  traceback : Signal 9 (SIGKILL) received by PID 1214903
+===========================================================
+Traceback (most recent call last):
+  File "/umbc/class/cmsc475sp26/common/group_5/objects_train.py", line 5, in <module>
+    model.train(
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/ultralytics/engine/model.py", line 792, in train
+    self.trainer.train()
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/ultralytics/engine/trainer.py", line 240, in train
+    raise e
+  File "/umbc/class/cmsc475sp26/common/group_5/venv475/lib64/python3.9/site-packages/ultralytics/engine/trainer.py", line 238, in train
+    subprocess.run(cmd, check=True)
+  File "/usr/lib64/python3.9/subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/umbc/class/cmsc475sp26/common/group_5/venv475/bin/python', '-m', 'torch.distributed.run', '--nproc_per_node', '2', '--master_port', '51115', '/tmp/Ultralytics/DDP/_temp_w4jy5kj823451532802416.py']' returned non-zero exit status 1.
